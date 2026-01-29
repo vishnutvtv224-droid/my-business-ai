@@ -1,0 +1,22 @@
+import streamlit as st
+import google.generativeai as genai
+
+# എ ഐ സെറ്റപ്പ്
+genai.configure(api_key="AIzaSyBPgcoQ6hX9yQv48FcN9auwEjjTaDSowKk")
+model = genai.GenerativeModel('gemini-pro')
+
+st.set_page_config(page_title="Business Expert AI", page_icon="📈")
+st.title("Business AI സഹായി 📈")
+st.write("നിങ്ങളുടെ ബിസിനസ് സംശയങ്ങൾ ഇവിടെ ചോദിക്കൂ. മലയാളത്തിലും മറുപടി ലഭിക്കും!")
+
+user_input = st.text_area("നിങ്ങളുടെ ചോദ്യം:", placeholder="ഉദാ: ഒരു ചെറിയ ബിസിനസ് എങ്ങനെ തുടങ്ങാം?")
+
+if st.button("ഉത്തരം ചോദിക്കൂ"):
+    if user_input:
+        with st.spinner('ചിന്തിക്കുന്നു...'):
+            prompt = f"You are a professional business consultant. Provide a detailed answer in Malayalam for: {user_input}"
+            response = model.generate_content(prompt)
+            st.success("മറുപടി ഇതാ:")
+            st.write(response.text)
+    else:
+        st.warning("ദയവായി ഒരു ചോദ്യം ടൈപ്പ് ചെയ്യൂ.")
